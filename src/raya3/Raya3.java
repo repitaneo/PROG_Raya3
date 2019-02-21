@@ -20,8 +20,10 @@ public class Raya3 {
 	
 	public void play() {
 		
+		boolean ganador = false;
+		int fichasColocadas = 0;
 		
-		for(int i=0;i<FILAS_COLUMNAS*FILAS_COLUMNAS;i++) {
+		while((!ganador)&(fichasColocadas!=9)){
 
 			int x = (int)(Math.random()*3);
 			int y = (int)(Math.random()*3);
@@ -34,13 +36,15 @@ public class Raya3 {
 			// ya tengo tablero[x][y] donde no hay nada
 			tablero[x][y] = turno;
 			turno = (turno=='x')?'o':'x';
+			fichasColocadas++;
 			
 			dibujarTablero();
-			
+			ganador = ganadorVertical(y)|ganadorHorizontal(x)|
+					  ganadorDiagonal();
 			
 
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(500);
 			} 
 			catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -50,6 +54,32 @@ public class Raya3 {
 			
 		}
 	}
+	
+	
+	
+	private boolean ganadorVertical(int columna) {
+		
+		return (tablero[0][columna]!=0 &&
+				tablero[0][columna]==tablero[1][columna]&
+				tablero[1][columna]==tablero[2][columna]);
+	}
+	
+	
+	private boolean ganadorHorizontal(int fila) {
+		
+		return (tablero[fila][0]!=0 &&
+				tablero[fila][0]==tablero[fila][1]&
+				tablero[fila][1]==tablero[fila][2]);
+	}
+	
+	private boolean ganadorDiagonal() {
+		
+		return tablero[1][1]!=0 &&
+				((tablero[1][1]==tablero[0][0]&
+				tablero[1][1]==tablero[2][2])|
+				(tablero[1][1]==tablero[0][2]&
+				tablero[1][1]==tablero[2][0]));
+	}	
 	
 	
 	
